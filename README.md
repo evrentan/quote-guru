@@ -24,7 +24,7 @@ npm install quote-guru
 First, import the `RandomQuoteGenerator` class into your project:
 
 ```javascript
-import RandomQuoteGenerator from 'quote-guru'; // Adjust the path if using locally
+import RandomQuoteGenerator from 'quote-guru';
 ```
 
 Then, create an instance of the `RandomQuoteGenerator`:
@@ -128,7 +128,22 @@ This library was created to help developers easily integrate random quotes into 
 
 This project uses a JSON quotes database provided by [JamesFT][jamesft-github-url]. You can find the original quotes database [here][jamesft-github-quotes-url]. Special thanks to JamesFT for making this valuable resource available!
 
+## Sponsoring
+
+If you enjoy this project and would like to support its development, please consider sponsoring. Your support helps me continue improving and maintaining the project.
+
+You can sponsor me via:
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor%20on-GitHub-blue?style=for-the-badge&logo=github)][github-sponsors-url]
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?style=for-the-badge&logo=buy-me-a-coffee)][buy-me-a-coffee-url]
+
+
+Thank you for your support!
+
 
 [zenquotes-url]: https://zenquotes.io
 [jamesft-github-url]: https://github.com/JamesFT/Database-Quotes-JSON
 [jamesft-github-quotes-url]: https://github.com/JamesFT/Database-Quotes-JSON/blob/master/quotes.json
+[github-sponsors-url]: https://github.com/sponsors/evrentan
+[buy-me-a-coffee-url]: https://www.buymeacoffee.com/evrentan
