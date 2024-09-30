@@ -29,7 +29,7 @@ class QuoteManager {
      * @param {string} author - The author's name to filter quotes by
      * @returns {Array} - An array of quotes by the specified author
      */
-    getQuoteByAuthor(author) {
+    getRandomQuoteByAuthor(author) {
         Validator.validateAuthor(author);
 
         const normalizedAuthor = author.trim().toLowerCase();

@@ -11,7 +11,7 @@ class RandomQuoteGenerator {
     }
 
     getRandomQuoteByAuthor(author) {
-        return this.quoteManager.getQuoteByAuthor(author);
+        return this.quoteManager.getRandomQuoteByAuthor(author);
     }
 
     getRandomQuoteAndAuthor() {
