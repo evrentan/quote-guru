@@ -1,5 +1,3 @@
-const RandomQuoteGenerator = require('./services/RandomQuoteGenerator');
+import RandomQuoteGenerator from './services/RandomQuoteGenerator.js';
 
-module.exports = {
-    RandomQuoteGenerator,
-};
+export { RandomQuoteGenerator };

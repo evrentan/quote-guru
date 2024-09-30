@@ -1,5 +1,5 @@
 import quotesData from '../assets/quotes.json'; // Adjust the path as necessary
-import QuoteManager from './QuoteManager';
+import QuoteManager from './QuoteManager.js';
 
 class RandomQuoteGenerator {
     constructor(quotes = null) {
