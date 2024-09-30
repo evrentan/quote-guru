@@ -1,1 +1,0 @@
-export const invalidAuthorError = 'Author must be a non-empty string!'

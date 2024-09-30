@@ -1,7 +1,8 @@
-module.exports = {
+export default {
     collectCoverage: true,
     collectCoverageFrom: [
-        "services/**/*.js",
+        "src/services/**/*.js",
+        "src/utils/**/*.js",
         "!**/node_modules/**"
     ],
     coverageDirectory: "coverage",
@@ -15,7 +16,12 @@ module.exports = {
         }
     },
     transform: {
-        "^.+\\.jsx?$": "babel-jest"
+        "^.+\\.[t|j]sx?$": "babel-jest",
     },
-    testEnvironment: "node"
+    testEnvironment: "node",
+    verbose: true,
+    moduleNameMapper: {
+        "^(\\.{1,2}/.*)\\.js$": "$1",
+        "^@/(.*)$": "<rootDir>/src/$1"
+    }
 };

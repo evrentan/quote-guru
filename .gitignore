@@ -37,5 +37,8 @@ yarn-error.log
 package-lock.json
 yarn.lock
 
-# Babel configuration
-.babelrc
+# Ignore npm cache
+.npm
+
+# Ignore tgz files
+*.tgz

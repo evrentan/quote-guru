@@ -2,7 +2,7 @@ import Validator from "../utils/Validator.js";
 
 class QuoteManager {
     constructor(quotes) {
-        this.quotes = quotes || [];
+        this.quotes = Array.isArray(quotes) ? quotes : [];
     }
 
     /**
@@ -26,23 +26,30 @@ class QuoteManager {
 
     /**
      * Get a quote by a specific author (case-insensitive)
-     * @param {string} author - The author's name to filter quotes by
-     * @returns {Array} - An array of quotes by the specified author
+     * @param {string} inputAuthor - The author's name to filter quotes by
+     * @returns {{quote: *, blockQuote: string, author: *}|null}
      */
-    getRandomQuoteByAuthor(author) {
-        Validator.validateAuthor(author);
+    getRandomQuoteByAuthor(inputAuthor) {
+        Validator.validateAuthor(inputAuthor);
 
-        const normalizedAuthor = author.trim().toLowerCase();
+        const normalizedAuthor = inputAuthor.trim().toLowerCase();
 
         const filteredQuotes = this.quotes.filter(quote =>
             quote.quoteAuthor && quote.quoteAuthor.trim().toLowerCase() === normalizedAuthor
         );
 
-        return filteredQuotes.map(quote => ({
-            quote: quote.quoteText,
-            author: quote.quoteAuthor,
-            blockQuote: `<blockquote>&ldquo;${quote.quoteText}&rdquo; &mdash; <footer>${quote.quoteAuthor}</footer></blockquote>`
-        }));
+        if (filteredQuotes.length === 0) {
+            return null;
+        }
+
+        const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+        const { quoteText: quote, quoteAuthor: author } = filteredQuotes[randomIndex];
+
+        return {
+            quote,
+            author,
+            blockQuote: `<blockquote>&ldquo;${quote}&rdquo; &mdash; <footer>${author}</footer></blockquote>`
+        };
     }
 
     /**
@@ -50,7 +57,7 @@ class QuoteManager {
      * @returns {{quote: *, author: *}|null}
      */
     getRandomQuoteAndAuthor() {
-        const randomQuote = this.getRandomQuote()
+       const randomQuote = this.getRandomQuote()
 
         return randomQuote ? {
             quote: randomQuote.quote,

@@ -1,4 +1,4 @@
-import { invalidAuthorError } from "../messages/Messages";
+import Messages from "../messages/Messages.js";
 
 class Validator {
     /**
@@ -7,7 +7,7 @@ class Validator {
      */
     static validateAuthor(author) {
         if (typeof author !== 'string' || author.trim().length === 0) {
-            throw new Error(invalidAuthorError);
+            throw new Error(Messages.invalidAuthorError);
         }
     }
 }

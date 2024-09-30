@@ -24,7 +24,7 @@ npm install quote-guru
 First, import the `RandomQuoteGenerator` class into your project:
 
 ```javascript
-import RandomQuoteGenerator from 'quote-guru';
+import { RandomQuoteGenerator } from 'quote-guru';
 ```
 
 Then, create an instance of the `RandomQuoteGenerator`:
@@ -36,9 +36,10 @@ const quoteGenerator = new RandomQuoteGenerator();
 ### Methods
 
 #### `getRandomQuote()`
-Returns a random quote with the quote text, author, and a preformatted block quote.
+Returns a random quote with the quote text, author, and a preformatted block quote. If there are no quotes available, null will be returned.
+
 ```javascript
-const randomQuote = quoteGenerator.getRandomQuote();
+const randomQuote = await quoteGenerator.getRandomQuote();
 console.log(randomQuote);
 /*
 {
@@ -50,9 +51,10 @@ console.log(randomQuote);
 ```
 
 #### `getRandomQuoteByAuthor(author)`
-Retrieves all quotes by the specified author. If the author is not found or the input is invalid, an error message will be returned.
+Retrieves one random quote by the specified author. If the input is invalid, an error message will be returned. If there are no quotes available for the author, null will be returned.
+
 ```javascript
-const quotesByAuthor = quoteGenerator.getRandomQuoteByAuthor('Thomas Edison');
+const quotesByAuthor = await quoteGenerator.getRandomQuoteByAuthor('Thomas Edison');
 console.log(quotesByAuthor);
 /*
 [
@@ -66,9 +68,10 @@ console.log(quotesByAuthor);
 ```
 
 #### `getRandomQuoteAndAuthor()`
-Returns a random quote with just the text and author.
+Returns a random quote with just the text and author. Useful for displaying a simple quote without the blockquote formatting. If there are no quotes available, null will be returned.
+
 ```javascript
-const quoteAndAuthor = quoteGenerator.getRandomQuoteAndAuthor();
+const quoteAndAuthor = await quoteGenerator.getRandomQuoteAndAuthor();
 console.log(quoteAndAuthor);
 /*
 {
@@ -78,12 +81,38 @@ console.log(quoteAndAuthor);
 */
 ```
 
+### Sample Usage
+
+Here's an example of how you can use the `quote-guru` library in your project:
+
+```javascript
+import { RandomQuoteGenerator } from 'quote-guru';
+
+async function displayRandomQuotes() {
+    const quoteGenerator = new RandomQuoteGenerator();
+
+    try {
+        const randomQuote = await quoteGenerator.getRandomQuote();
+        const randomQuoteAuthor = await quoteGenerator.getRandomQuoteAndAuthor();
+        const randomQuoteByAuthor = await quoteGenerator.getRandomQuoteByAuthor('Thomas Edison');
+
+        console.log(randomQuote);
+        console.log(randomQuoteAuthor);
+        console.log(randomQuoteByAuthor);
+    } catch (error) {
+        console.error('Error retrieving quotes:', error);
+    }
+}
+
+displayRandomQuotes();
+```
+
 ### Edge Cases and Validations
-- The `getQuoteByAuthor` method requires the `author` parameter to be a non-empty string. It will throw a validation error if the input is invalid.
-- If there are no quotes available (i.e., an empty quotes array), the `getQuote` and `getQuoteAndAuthor` methods will return `null`, and `getQuoteByAuthor` will return an empty array.
+- Make sure to use `await` when calling the methods to handle the asynchronous nature of the library.
+- The `getRandomQuoteByAuthor` method requires the `author` parameter to be a non-empty string. It will throw a validation error if the input is invalid.
+- If there are no quotes available (i.e., an empty quotes array), methods will return `null`.
 
 Feel free to experiment with these methods to get different quotes or filter by specific authors!
-
 
 ### JSON File Structure
 
@@ -122,7 +151,7 @@ This library was created to help developers easily integrate random quotes into 
 
 ## Acknowledgements
 
-- [ZenQuotes API][zenquotes-url] for inspiration.
+[ZenQuotes API][zenquotes-url] is an inspiration for this project. It provides a simple and easy-to-use API for retrieving random quotes.
 
 ## Credits
 
@@ -137,7 +166,6 @@ You can sponsor me via:
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor%20on-GitHub-blue?style=for-the-badge&logo=github)][github-sponsors-url]
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-yellow?style=for-the-badge&logo=buy-me-a-coffee)][buy-me-a-coffee-url]
-
 
 Thank you for your support!
 
