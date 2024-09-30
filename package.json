@@ -2,7 +2,7 @@
   "name": "quote-guru",
   "version": "1.0.0",
   "description": "quote-guru is a lightweight, easy-to-use library that provides random inspirational quotes. It provides each quote with its author and a neatly formatted HTML blockquote. Perfect for adding a touch of wisdom or motivation to your apps, websites, or projects!",
-  "main": "services/RandomQuoteGenerator.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
@@ -42,10 +42,9 @@
     "url": "https://github.com/evrentan/quote-guru/issues"
   },
   "homepage": "https://github.com/evrentan/quote-guru#readme",
-  "dependencies": {
-    "jest": "^29.7.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "jest": "^29.7.0",
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "babel-jest": "^29.7.0"

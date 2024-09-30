@@ -1,10 +1,5 @@
-const RandomQuoteGenerator = require('./services/RandomQuoteGenerator'); // Adjust the path if necessary
+import RandomQuoteGenerator from './services/RandomQuoteGenerator';
+import QuoteManager from './services/QuoteManager';
+import Validator from './utils/Validator';
 
-const generator = new RandomQuoteGenerator();
-
-const randomQuote = generator.getRandomQuote();
-if (randomQuote) {
-    console.log(JSON.stringify(randomQuote, null, 2)); // Pretty print the output
-} else {
-    console.log('No quotes available.');
-}
+export { RandomQuoteGenerator, QuoteManager, Validator };
