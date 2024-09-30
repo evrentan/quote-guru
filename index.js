@@ -1,5 +1,5 @@
-import RandomQuoteGenerator from './services/RandomQuoteGenerator';
-import QuoteManager from './services/QuoteManager';
-import Validator from './utils/Validator';
+const RandomQuoteGenerator = require('./services/RandomQuoteGenerator');
 
-export { RandomQuoteGenerator, QuoteManager, Validator };
+module.exports = {
+    RandomQuoteGenerator,
+};
