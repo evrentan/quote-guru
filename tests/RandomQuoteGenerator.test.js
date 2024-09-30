@@ -9,6 +9,7 @@ beforeAll(() => {
 });
 
 describe('RandomQuoteGenerator', () => {
+    // Test cases for getRandomQuote method
     test('should return a random quote object', () => {
         const quote = quoteGenerator.getRandomQuote();
         expect(quote).toHaveProperty('quote');
@@ -16,6 +17,7 @@ describe('RandomQuoteGenerator', () => {
         expect(quote).toHaveProperty('blockQuote');
     });
 
+    // Test cases for getRandomQuoteByAuthor method
     test('should return quotes by a specific author', () => {
         const author = 'Thomas Edison';
         const quotes = quoteGenerator.getRandomQuoteByAuthor(author);
@@ -29,6 +31,7 @@ describe('RandomQuoteGenerator', () => {
         });
     });
 
+    // Test cases for getRandomQuoteAndAuthor method
     test('should return a random quote and its author', () => {
         const quoteAndAuthor = quoteGenerator.getRandomQuoteAndAuthor();
         expect(quoteAndAuthor).toHaveProperty('quote');
@@ -67,5 +70,30 @@ describe('RandomQuoteGenerator', () => {
         const quotes = quoteGenerator.getRandomQuoteByAuthor('Nonexistent Author');
         expect(Array.isArray(quotes)).toBe(true);
         expect(quotes.length).toBe(0);
+    });
+
+    // Edge case: Random quote and author from an empty quotes array
+    test('should return null when quotes array is empty', () => {
+        const emptyQuoteManager = new RandomQuoteGenerator([]);
+        expect(emptyQuoteManager.getRandomQuote()).toBeNull();
+    });
+
+    // Edge case: Random quote and author from a custom quotes array
+    test('should return quotes matching the given author', () => {
+        const quotes = [
+            { quoteText: "Test quote 1", quoteAuthor: "Author 1" },
+            { quoteText: "Test quote 2", quoteAuthor: "Author 2" },
+        ];
+        const quoteManager = new RandomQuoteGenerator(quotes);
+        expect(quoteManager.getRandomQuoteByAuthor("Author 1")).toEqual([{ quote: "Test quote 1", author: "Author 1", blockQuote: "<blockquote>&ldquo;Test quote 1&rdquo; &mdash; <footer>Author 1</footer></blockquote>" }]);
+    });
+
+    // Edge case: Random quote and author from a custom quotes array
+    test('should handle non-existent author gracefully', () => {
+        const quotes = [
+            { quoteText: "Test quote 1", quoteAuthor: "Author 1" }
+        ];
+        const quoteManager = new RandomQuoteGenerator(quotes);
+        expect(quoteManager.getRandomQuoteByAuthor("Nonexistent Author")).toEqual([]);
     });
 });
