@@ -15,7 +15,8 @@
   },
   "files": [
     "dist/",
-    "assets/"
+    "assets/",
+    "src/"
   ],
   "keywords": [
     "quote",
