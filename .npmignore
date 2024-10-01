@@ -24,5 +24,3 @@ docs/
 
 # Exclude tgz files
 *.tgz
-
-dist/

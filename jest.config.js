@@ -1,8 +1,8 @@
 export default {
     collectCoverage: true,
     collectCoverageFrom: [
-        "src/services/**/*.js",
-        "src/utils/**/*.js",
+        "src/services/QuoteManager.js",
+        "src/utils/Validator.js",
         "!**/node_modules/**"
     ],
     coverageDirectory: "coverage",

@@ -1,10 +1,6 @@
 import QuoteManager from './QuoteManager.js';
 import fs from 'fs/promises';
-import { fileURLToPath } from 'url';
-import { dirname, join, resolve } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import AssetFolderFinder from '../utils/AssetFolderFinder.js'
 
 class RandomQuoteGenerator {
     constructor(quotes = []) {
@@ -14,9 +10,8 @@ class RandomQuoteGenerator {
 
     async loadQuotes() {
         try {
-            const filePath = join(__dirname, '../../assets/quotes.json');
+            const filePath = AssetFolderFinder.getAssetFolder();
             const quotesData = await fs.readFile(filePath, 'utf-8');
-            //const quotesData = await fs.readFile('../../assets/quotes.json', 'utf8');
             this.quotes = JSON.parse(quotesData);
             this.quoteManager = new QuoteManager(this.quotes);
         } catch (error) {

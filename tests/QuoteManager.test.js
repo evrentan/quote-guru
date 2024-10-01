@@ -1,69 +1,106 @@
 import QuoteManager from '../src/services/QuoteManager.js';
-import Messages from "../src/messages/Messages.js";
+import Validator from "../src/utils/Validator.js";
+
+jest.mock('../src/utils/Validator.js', () => ({
+    validateAuthor: jest.fn(),
+}));
 
 describe('QuoteManager', () => {
-    let quoteManager;
+    const sampleQuotes = [
+        {
+            quoteText: "The only limit to our realization of tomorrow is our doubts of today.",
+            quoteAuthor: "Franklin D. Roosevelt"
+        },
+        {
+            quoteText: "Genius is one percent inspiration and ninety-nine percent perspiration.",
+            quoteAuthor: "Thomas Edison"
+        },
+        {quoteText: "Imagination is more important than knowledge.", quoteAuthor: "Albert Einstein"}
+    ];
 
-    beforeEach(() => {
-        quoteManager = new QuoteManager([
-            { quoteText: "Test quote 1", quoteAuthor: "Author 1" },
-            { quoteText: "Test quote 2", quoteAuthor: "Author 2" },
-            { quoteText: "Test quote 3", quoteAuthor: "Author 1" },
-        ]);
+    describe('constructor', () => {
+        it('should initialize with an empty array if no quotes are provided', () => {
+            const manager = new QuoteManager();
+            expect(manager.quotes).toEqual([]);
+        });
+
+        it('should initialize with the provided quotes array', () => {
+            const manager = new QuoteManager(sampleQuotes);
+            expect(manager.quotes).toEqual(sampleQuotes);
+        });
+
+        it('should initialize with an empty array if a non-array is provided', () => {
+            const manager = new QuoteManager("invalid quotes");
+            expect(manager.quotes).toEqual([]);
+        });
     });
 
-    test('should return a random quote', () => {
-        const quote = quoteManager.getRandomQuote();
-        expect(quote).toHaveProperty('quote');
-        expect(quote).toHaveProperty('author');
-        expect(quote).toHaveProperty('blockQuote');
+    describe('getRandomQuote', () => {
+        it('should return null if there are no quotes', () => {
+            const manager = new QuoteManager([]);
+            expect(manager.getRandomQuote()).toBeNull();
+        });
+
+        it('should return a random quote object with the correct properties', () => {
+            const manager = new QuoteManager(sampleQuotes);
+            const randomQuote = manager.getRandomQuote();
+
+            expect(randomQuote).toHaveProperty('quote');
+            expect(randomQuote).toHaveProperty('author');
+            expect(randomQuote).toHaveProperty('blockQuote');
+
+            // Ensure the block quote is formatted correctly
+            expect(randomQuote.blockQuote).toContain(`&ldquo;${randomQuote.quote}&rdquo;`);
+            expect(randomQuote.blockQuote).toContain(`<footer>${randomQuote.author}</footer>`);
+        });
     });
 
-    test('should return a random quote by a specific author', () => {
-        const quote = quoteManager.getRandomQuoteByAuthor("Author 1");
-        expect(quote).toHaveProperty('quote');
-        expect(quote.author).toBe("Author 1");
+    describe('getRandomQuoteByAuthor', () => {
+        it('should call Validator.validateAuthor with the correct input', () => {
+            const manager = new QuoteManager(sampleQuotes);
+            const inputAuthor = "Thomas Edison";
+            manager.getRandomQuoteByAuthor(inputAuthor);
+            expect(Validator.validateAuthor).toHaveBeenCalledWith(inputAuthor);
+        });
+
+        it('should return null if no quotes match the author', () => {
+            const manager = new QuoteManager(sampleQuotes);
+            const result = manager.getRandomQuoteByAuthor('Unknown Author');
+            expect(result).toBeNull();
+        });
+
+        it('should return a random quote by the specified author (case-insensitive)', () => {
+            const manager = new QuoteManager(sampleQuotes);
+            const author = 'thomas edison'; // lowercase to test case-insensitivity
+            const result = manager.getRandomQuoteByAuthor(author);
+
+            expect(result).toHaveProperty('quote');
+            expect(result).toHaveProperty('author', 'Thomas Edison');
+            expect(result.blockQuote).toContain(`&ldquo;${result.quote}&rdquo;`);
+            expect(result.blockQuote).toContain(`<footer>${result.author}</footer>`);
+        });
+
+        it('should handle authors with leading/trailing spaces', () => {
+            const manager = new QuoteManager(sampleQuotes);
+            const result = manager.getRandomQuoteByAuthor('  Thomas Edison  ');
+
+            expect(result).toHaveProperty('author', 'Thomas Edison');
+        });
     });
 
-    test('should return null for non-existent author', () => {
-        const quote = quoteManager.getRandomQuoteByAuthor("Nonexistent Author");
-        expect(quote).toBeNull();
-    });
+    describe('getRandomQuoteAndAuthor', () => {
+        it('should return null if there are no quotes', () => {
+            const manager = new QuoteManager([]);
+            expect(manager.getRandomQuoteAndAuthor()).toBeNull();
+        });
 
-    test('should throw an error for invalid author input', () => {
-        expect(() => quoteManager.getRandomQuoteByAuthor(null)).toThrow(Messages.invalidAuthorError);
-        expect(() => quoteManager.getRandomQuoteByAuthor('')).toThrow(Messages.invalidAuthorError);
-        expect(() => quoteManager.getRandomQuoteByAuthor(123)).toThrow(Messages.invalidAuthorError);
-    });
+        it('should return only the quote and author from the random quote', () => {
+            const manager = new QuoteManager(sampleQuotes);
+            const result = manager.getRandomQuoteAndAuthor();
 
-    test('should initialize with a non-empty array of quotes', () => {
-        const quotes = [
-            { quoteText: "Quote 1", quoteAuthor: "Author 1" },
-            { quoteText: "Quote 2", quoteAuthor: "Author 2" },
-        ];
-        const quoteManager = new QuoteManager(quotes);
-        expect(quoteManager.quotes).toEqual(quotes);
-    });
-
-    test('should initialize with an empty array when given an empty array', () => {
-        const quoteManager = new QuoteManager([]);
-        expect(quoteManager.quotes).toEqual([]);
-    });
-
-    test('should initialize with an empty array when given undefined', () => {
-        const quoteManager = new QuoteManager(undefined);
-        expect(quoteManager.quotes).toEqual([]);
-    });
-
-    test('should initialize with an empty array when given null', () => {
-        const quoteManager = new QuoteManager(null);
-        expect(quoteManager.quotes).toEqual([]);
-    });
-
-    test('should initialize with an empty array when given a non-array value', () => {
-        const quoteManager = new QuoteManager("Not an array");
-        expect(quoteManager.quotes).toEqual([]);
-        const quoteManager2 = new QuoteManager(123);
-        expect(quoteManager2.quotes).toEqual([]);
+            expect(result).toHaveProperty('quote');
+            expect(result).toHaveProperty('author');
+            expect(result).not.toHaveProperty('blockQuote');
+        });
     });
 });

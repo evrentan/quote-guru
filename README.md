@@ -131,6 +131,40 @@ The quotes are retrieved from a JSON file located in the `assets` directory. The
 ]
 ```
 
+## Setup on Your Local Machine
+
+To set up the project on your local machine, follow these steps:
+
+Clone the repository:
+
+```bash
+git clone git@github.com:evrentan/quote-guru.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd quote-guru
+```
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Build the project:
+
+```bash
+npm run build
+```
+
+Test the project:
+
+```bash
+npm test
+```
+
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
