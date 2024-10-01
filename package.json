@@ -1,6 +1,6 @@
 {
   "name": "quote-guru",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "quote-guru is a lightweight, easy-to-use library that provides random inspirational quotes. It provides each quote with its author and a neatly formatted HTML blockquote. Perfect for adding a touch of wisdom or motivation to your apps, websites, or projects!",
   "main": "src/index.js",
   "type": "module",
