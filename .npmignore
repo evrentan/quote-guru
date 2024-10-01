@@ -24,3 +24,6 @@ docs/
 
 # Exclude tgz files
 *.tgz
+
+# Exclude .github folder
+.github/
